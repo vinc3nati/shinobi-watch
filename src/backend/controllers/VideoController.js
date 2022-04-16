@@ -31,6 +31,18 @@ export const getAllVideosHandler = function () {
 
 // TODO: postVideoHandler
 
+export const updateVideoHandler = function (schema, request) {
+  try {
+    const videoId = request.params.videoId;
+    const { comments } = JSON.parse(request.requestBody);
+
+    this.db.videos.update({ _id: videoId }, { comments: comments });
+    return new Response(200, {}, { videos: this.db.videos });
+  } catch (error) {
+    return new Response(500, {}, { error });
+  }
+};
+
 /**
  * This handler handles gets all videos in the db.
  * send GET Request at /api/user/videos/:videoId

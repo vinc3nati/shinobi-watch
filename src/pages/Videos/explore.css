@@ -1,0 +1,55 @@
+.explore-container {
+    min-height: 100vh;
+}
+
+.explore-main {
+    margin-left: calc(100px + 2rem);
+    padding: 2rem 2rem 2rem 0;
+}
+
+.video-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 4rem 2rem;
+}
+
+.video-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    color: var(--color-foreground);
+}
+
+.video-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.video-content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+}
+
+.video-title span {
+    max-width: calc(100% - 25px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.video-creator {
+    font-size: 1.4rem;
+}
+
+.video-options {
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+    .explore-main{
+        margin-left: 0;
+        padding: 1.5rem;
+    }
+}

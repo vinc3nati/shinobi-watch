@@ -12,6 +12,7 @@ import {
 import {
   getAllVideosHandler,
   getVideoHandler,
+  updateVideoHandler,
 } from "./backend/controllers/VideoController";
 import { videos } from "./backend/db/videos";
 import { categories } from "./backend/db/categories";
@@ -82,6 +83,7 @@ export function makeServer({ environment = "development" } = {}) {
       // video routes (public)
       this.get("/videos", getAllVideosHandler.bind(this));
       this.get("video/:videoId", getVideoHandler.bind(this));
+      this.post("/video/:videoId", updateVideoHandler.bind(this));
 
       // TODO: POST VIDEO TO DB
 

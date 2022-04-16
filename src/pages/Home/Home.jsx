@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { HomeBanner } from "./HomeBanner";
 
 export const Home = () => {
@@ -8,7 +9,9 @@ export const Home = () => {
         <div className="text-overlay">
           <h1 className="text-primary">Relive Anime</h1>
           <p>Best and fun way to watch anime!</p>
-          <button className="btn tertiary">explore</button>
+          <Link to="/explore" className="btn tertiary">
+            explore
+          </Link>
         </div>
       </header>
       <main>

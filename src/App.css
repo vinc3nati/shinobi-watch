@@ -1,9 +1,13 @@
 @import url("./pages/Home/home.css");
+@import url("./pages/Videos/explore.css");
 @import url("./components/Navbar/navbar.css");
 @import url("./components/Account/account.css");
 @import url("./components/Footer/footer.css");
 @import url("./components/ScrollTop/scrollTop.css");
 @import url("./components/ThemeSwitcher/themeSwitcher.css");
+@import url("./components/Sidebar/sidebar.css");
+@import url("./components/Loader/loader.css");
+@import url("./components/Chips/chips.css");
 
 :root {
   --border-radius-10: 10px;
