@@ -7,6 +7,12 @@
   .search-bar {
     position: relative;
   }
+
+  .main .search-bar,
+  .search-bar input[type="search"] {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
   
   .search-list {
     position: fixed;

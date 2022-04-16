@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import { makeServer } from "./server";
 import ScrollToTop from "./ScrollToTop";
+import { ThemeProvider } from "./context/theme-context";
 
 // Call make Server
 makeServer();
@@ -11,8 +12,10 @@ makeServer();
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <ScrollToTop />
-      <App />
+      <ThemeProvider>
+        <ScrollToTop />
+        <App />
+      </ThemeProvider>
     </Router>
   </React.StrictMode>,
   document.getElementById("root")
