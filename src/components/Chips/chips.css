@@ -1,0 +1,48 @@
+.chips-outer-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    background-color: var(--color-background);
+  }
+  .chips-container {
+    padding-bottom: 1.5rem;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    overflow: auto;
+    gap: 1rem;
+  }
+  .chips-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .prev-btn, .next-btn {
+    background-color: var(--color-background);
+    height: 100%;
+    padding: 0 1rem;
+    color: var(--color-foreground);
+    position: absolute;
+    top: 0;
+  }
+
+  .prev-btn {
+    left: 0;
+  }
+  .next-btn {
+    right: 0;
+  }
+
+  .chip {
+    background-color: var(--color-background-accent);
+    color: var(--text-color);
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+    border-radius: var(--border-radius-14);
+}
+  .chip-active {
+    background-color: var(--color-primary);
+    color: var(--color-tertiary);
+  }
+  .chip-text {
+    width: max-content;
+  }
