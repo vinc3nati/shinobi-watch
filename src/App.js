@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import { Footer } from "./components/Footer/Footer";
 import { Navbar } from "./components/Navbar/Navbar";
 import { ScrollTop } from "./components/ScrollTop/ScrollTop";
 import { Home } from "./pages/Home/Home";
@@ -24,7 +23,6 @@ function App() {
       </Routes>
       <ToastContainer style={{ fontWeight: "500", fontSize: "2rem" }} />
       <ScrollTop />
-      <Footer />
     </>
   );
 }

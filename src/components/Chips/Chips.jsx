@@ -1,38 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { ACTIONS, FILTERS } from "../../utils/constants";
-import { useData } from "../../context/index";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 export const Chips = ({ element }) => {
   const { categoryName } = element;
-  const {
-    state: { filters },
-    dispatch,
-  } = useData();
-  const [active, setActive] = useState(false);
-  useEffect(() => {
-    filters.category === categoryName ? setActive(true) : setActive(false);
-    filters.category === "" && categoryName === "all" && setActive(true);
-  }, [filters.category, categoryName]);
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const searchQuery = query.get("type") ? query.get("type") : "all";
 
   return (
-    <div
-      className={`chip ${active && "chip-active"}`}
-      onClick={() => {
-        if (!active)
-          dispatch({
-            type: ACTIONS.ChangeFilters,
-            payload: {
-              type: FILTERS.Category,
-              value: categoryName,
-            },
-          });
-        else
-          dispatch({
-            type: ACTIONS.ClearFilters,
-          });
-      }}
+    <Link
+      to={`?type=${encodeURI(categoryName)}`}
+      className={`chip ${categoryName === searchQuery ? "chip-active" : ""}`}
     >
       <p className="font-wt-semibold chip-text">{categoryName}</p>
-    </div>
+    </Link>
   );
 };

@@ -10,6 +10,7 @@ export const ChipContainer = () => {
   let scrl = useRef(null);
   const [scrollX, setscrollX] = useState(0);
   const [scrolEnd, setscrolEnd] = useState(false);
+
   const slide = (shift) => {
     scrl.current.scrollLeft += shift;
     setscrollX(scrollX + shift);

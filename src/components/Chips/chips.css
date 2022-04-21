@@ -5,7 +5,7 @@
     background-color: var(--color-background);
   }
   .chips-container {
-    padding: 1.5rem;
+    padding-bottom: 1.5rem;
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
@@ -38,10 +38,6 @@
     padding: 0.7rem 1rem;
     cursor: pointer;
     border-radius: var(--border-radius-14);
-    -webkit-border-radius: var(--border-radius-14);
-    -moz-border-radius: var(--border-radius-14);
-    -ms-border-radius: var(--border-radius-14);
-    -o-border-radius: var(--border-radius-14);
 }
   .chip-active {
     background-color: var(--color-primary);

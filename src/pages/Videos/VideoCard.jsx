@@ -1,7 +1,7 @@
 import React from "react";
-import { FaEllipsisV } from "react-icons/fa";
+import { VideoCardMenu } from "./VideoCardMenu";
 
-export const VideoCard = ({ video }) => {
+export const VideoCard = ({ video, menuItems }) => {
   const { _id, title, creator, ...rest } = video;
   return (
     <div className="video-card">
@@ -15,7 +15,7 @@ export const VideoCard = ({ video }) => {
       <div className="video-content">
         <div className="video-title">
           <span className="text-bold">{title}</span>
-          <FaEllipsisV className="video-options" />
+          <VideoCardMenu menuItems={menuItems} video={video} />
         </div>
         <div className="video-creator">{creator}</div>
       </div>
