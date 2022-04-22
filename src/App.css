@@ -1,5 +1,6 @@
 @import url("./pages/Home/home.css");
 @import url("./pages/Videos/explore.css");
+@import url("./pages/VideoDetails/videoDetails.css");
 @import url("./components/Navbar/navbar.css");
 @import url("./components/Account/account.css");
 @import url("./components/Footer/footer.css");
@@ -41,6 +42,10 @@ section:not(#footer) {
 
 .btn.outline, .btn.outline-primary,.btn.outline-error{
   background-color: transparent;
+}
+
+.text-error {
+  color: var(--color-error)
 }
 
 /* Scrollbar */

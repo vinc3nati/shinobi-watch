@@ -8,6 +8,7 @@ import { VideoList } from "./pages/Videos/VideoList";
 import { ToastContainer } from "react-toastify";
 import { useData } from "./context/index";
 import { Loader } from "./components/Loader/Loader";
+import { VideoDetails } from "./pages/VideoDetails/VideoDetails";
 
 function App() {
   const { loader } = useData();
@@ -20,6 +21,7 @@ function App() {
         <Route path="/explore" element={<Explore />}>
           <Route path="" element={<VideoList />} />
         </Route>
+        <Route path="/explore/:videoId" element={<VideoDetails />} />
       </Routes>
       <ToastContainer style={{ fontWeight: "500", fontSize: "2rem" }} />
       <ScrollTop />

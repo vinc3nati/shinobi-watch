@@ -1,26 +1,27 @@
-import React from "react";
+import React, { useState, lazy, Suspense } from "react";
+import { useParams } from "react-router-dom";
 import { BsCollectionPlayFill, BsShareFill } from "react-icons/bs";
 import { MdWatchLater } from "react-icons/md";
-import { useLocation } from "react-router-dom";
-import { ChipContainer } from "../../components/Chips/ChipContainer";
 import { ToastMessage } from "../../components/Toast/Toast";
-import { useData } from "../../context/data-context";
 import { ToastType } from "../../utils/constants";
-import { VideoCard } from "./VideoCard";
+import { Loader } from "../../components/Loader/Loader";
+import { useData } from "../../context";
+import { VideoCard } from "../Videos/VideoCard";
+const VideoPlayer = lazy(() => import("./VideoPlayer"));
 
-export const VideoList = () => {
+export const VideoDetails = () => {
   const {
     state: { videos },
   } = useData();
-
-  const { search } = useLocation();
-  const query = new URLSearchParams(search);
-  const searchQuery = query.get("type") ? query.get("type") : "all";
-
-  const videoData =
-    searchQuery === "all"
-      ? videos
-      : videos.filter((item) => item.category.includes(searchQuery));
+  const { videoId } = useParams();
+  const videoToDisplay = videos.find((elem) => elem._id === videoId);
+  const relatedVideos = videos.filter(
+    (ele) =>
+      ele._id !== videoId &&
+      !videoToDisplay?.category?.some((item) =>
+        ele.category.some((eleItem) => eleItem === item)
+      )
+  );
 
   const clickHandler = async (id, video) => {
     switch (id) {
@@ -65,13 +66,19 @@ export const VideoList = () => {
 
   return (
     <>
-      <ChipContainer />
-
-      <div className="video-list">
-        {videoData.length > 0 &&
-          videoData.map((video) => (
-            <VideoCard key={video._id} video={video} menuItems={MenuItems} />
-          ))}
+      {/* TODO:
+  if no video is found navigate to error page
+  */}
+      <div className="video-details-container">
+        <Suspense fallback={<Loader />}>
+          <VideoPlayer video={videoToDisplay} />
+        </Suspense>
+        <div className="suggested-videos">
+          {relatedVideos &&
+            relatedVideos.map((item) => (
+              <VideoCard key={item._id} video={item} menuItems={MenuItems} />
+            ))}
+        </div>
       </div>
     </>
   );
