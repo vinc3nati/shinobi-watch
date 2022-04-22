@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import { Navbar } from "./components/Navbar/Navbar";
 import { ScrollTop } from "./components/ScrollTop/ScrollTop";
@@ -9,19 +9,37 @@ import { ToastContainer } from "react-toastify";
 import { useData } from "./context/index";
 import { Loader } from "./components/Loader/Loader";
 import { VideoDetails } from "./pages/VideoDetails/VideoDetails";
+import { Login } from "./pages/Auth/Login";
+import { Signup } from "./pages/Auth/Signup";
+import { PrivateRoute } from "./components/PrivateRoutes/PrivateRoute";
+import { Profile } from "./pages/Profile/Profile";
 
 function App() {
   const { loader } = useData();
+  const { pathname } = useLocation();
   return (
     <>
       {loader && <Loader />}
-      <Navbar />
+      {pathname !== "/login" && pathname !== "/signup" && <Navbar />}
       <Routes>
+        <Route path="/login" element={<Login title="login" />} />
+        <Route path="/signup" element={<Signup title="register" />} />
         <Route path="/" element={<Home />} />
         <Route path="/explore" element={<Explore />}>
-          <Route path="" element={<VideoList />} />
+          <Route path="" element={<VideoList title="explore" />} />
         </Route>
-        <Route path="/explore/:videoId" element={<VideoDetails />} />
+        <Route
+          path="/explore/:videoId"
+          element={<VideoDetails title="video" />}
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
       </Routes>
       <ToastContainer style={{ fontWeight: "500", fontSize: "2rem" }} />
       <ScrollTop />

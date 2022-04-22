@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  color: var(--color-foreground);
+  color: var(--color-background);
 }
 
 .account-dropdown {
@@ -19,6 +19,10 @@
 
 .account-dropdown > ul {
   border: none;
-  background-color: var(--color-background-accent);
+  background-color: var(--color-background);
   color: var(--color-foreground);
+}
+
+.list li:not(.nested-list):hover {
+  background-color: var(--color-background-accent);
 }

@@ -5,10 +5,12 @@ import { useLocation } from "react-router-dom";
 import { ChipContainer } from "../../components/Chips/ChipContainer";
 import { ToastMessage } from "../../components/Toast/Toast";
 import { useData } from "../../context/data-context";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import { ToastType } from "../../utils/constants";
 import { VideoCard } from "./VideoCard";
 
-export const VideoList = () => {
+export const VideoList = ({ title }) => {
+  useDocumentTitle(title);
   const {
     state: { videos },
   } = useData();

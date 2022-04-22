@@ -6,6 +6,7 @@ import { makeServer } from "./server";
 import ScrollToTop from "./ScrollToTop";
 import { ThemeProvider } from "./context/theme-context";
 import { DataProvider } from "./context/data-context";
+import { AuthProvider } from "./context";
 
 // Call make Server
 makeServer();
@@ -14,10 +15,12 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <ThemeProvider>
-        <DataProvider>
-          <ScrollToTop />
-          <App />
-        </DataProvider>
+        <AuthProvider>
+          <DataProvider>
+            <ScrollToTop />
+            <App />
+          </DataProvider>
+        </AuthProvider>
       </ThemeProvider>
     </Router>
   </React.StrictMode>,
