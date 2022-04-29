@@ -1,8 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import errorImage from "../../assets/404_6.png";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
-export const Error = () => {
+export const Error = ({ title }) => {
+  useDocumentTitle(title);
   const navigate = useNavigate();
   return (
     <main id="error-page">

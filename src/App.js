@@ -25,7 +25,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login title="login" />} />
         <Route path="/signup" element={<Signup title="register" />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home title="home" />} />
         <Route path="/explore" element={<Explore />}>
           <Route path="" element={<VideoList title="explore" />} />
         </Route>
@@ -41,8 +41,8 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="*" element={<Error />} />
-        <Route path="/error" element={<Error />} />
+        <Route path="*" element={<Error title="Error" />} />
+        <Route path="/error" element={<Error title="Error" />} />
       </Routes>
       <ToastContainer style={{ fontWeight: "500", fontSize: "2rem" }} />
       <ScrollTop />

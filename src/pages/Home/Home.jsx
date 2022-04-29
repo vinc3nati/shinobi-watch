@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Footer } from "../../components/Footer/Footer";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import { HomeBanner } from "./HomeBanner";
 
-export const Home = () => {
+export const Home = ({ title }) => {
+  useDocumentTitle(title);
   return (
     <>
       <section id="home">
