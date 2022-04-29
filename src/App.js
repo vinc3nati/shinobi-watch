@@ -36,7 +36,7 @@ function App() {
           path="/profile"
           element={
             <PrivateRoute>
-              <Profile />
+              <Profile title="profile" />
             </PrivateRoute>
           }
         />

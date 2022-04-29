@@ -24,7 +24,7 @@ export const Login = ({ title }) => {
     setLogin({ ...login, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e, login) => {
     e.preventDefault();
     setLoader(true);
     await handleLogin({ ...login, from });
@@ -35,7 +35,7 @@ export const Login = ({ title }) => {
   return (
     <section id="auth">
       <header className="section-heading">Login</header>
-      <form className="auth-form" onSubmit={handleSubmit}>
+      <form className="auth-form" onSubmit={(e) => handleSubmit(e, login)}>
         <div className="input-grp">
           <label htmlFor="email">Email</label>
           <input
@@ -74,7 +74,7 @@ export const Login = ({ title }) => {
       <span
         className="text-underline text-primary text-center"
         style={{ cursor: "pointer" }}
-        onClick={() => handleLogin({ ...testLogin, from })}
+        onClick={(e) => handleSubmit(e, testLogin)}
       >
         Guest Login
       </span>
