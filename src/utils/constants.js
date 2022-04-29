@@ -9,6 +9,11 @@ export const VIDEOAPI = {
   HISTORY: "/api/user/history",
 };
 
+export const AUTH_API = {
+  LOGIN: "/api/auth/login",
+  REGISTER: "/api/auth/signup",
+};
+
 export const ACTIONS = {
   SetVideos: "SET_VIDEOS",
   SetCategories: "SET_CATEGORIES",

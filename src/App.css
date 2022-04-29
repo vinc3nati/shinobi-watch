@@ -1,6 +1,8 @@
 @import url("./pages/Home/home.css");
 @import url("./pages/Videos/explore.css");
 @import url("./pages/VideoDetails/videoDetails.css");
+@import url("./pages/Auth/auth.css");
+@import url("./pages/Profile/profile.css");
 @import url("./components/Navbar/navbar.css");
 @import url("./components/Account/account.css");
 @import url("./components/Footer/footer.css");
@@ -34,6 +36,25 @@ body {
   overflow: auto;
   background-color: var(--color-background);
   color: var(--color-foreground);
+}
+
+.section-heading {
+  font-size: 4rem;
+  color: var(--color-foreground);
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.section-heading::after {
+  display: block;
+  height: 2px;
+  background-color: var(--color-primary);
+  content: " ";
+  width: 100px;
+  margin: 0 auto;
+  margin-top: 20px;
 }
 
 section:not(#footer) {

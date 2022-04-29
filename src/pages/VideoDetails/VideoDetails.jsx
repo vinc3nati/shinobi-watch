@@ -7,9 +7,11 @@ import { ToastType } from "../../utils/constants";
 import { Loader } from "../../components/Loader/Loader";
 import { useData } from "../../context";
 import { VideoCard } from "../Videos/VideoCard";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 const VideoPlayer = lazy(() => import("./VideoPlayer"));
 
-export const VideoDetails = () => {
+export const VideoDetails = ({ title }) => {
+  useDocumentTitle(title);
   const {
     state: { videos },
   } = useData();

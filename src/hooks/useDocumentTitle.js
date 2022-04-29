@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { capitalize } from "../utilities/capitalize";
+import { capitalize } from "../utils/capitalize";
 
 export const useDocumentTitle = (title) => {
   useEffect(() => {
