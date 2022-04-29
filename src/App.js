@@ -13,6 +13,7 @@ import { Login } from "./pages/Auth/Login";
 import { Signup } from "./pages/Auth/Signup";
 import { PrivateRoute } from "./components/PrivateRoutes/PrivateRoute";
 import { Profile } from "./pages/Profile/Profile";
+import { Error } from "./pages/Error/Error";
 
 function App() {
   const { loader } = useData();
@@ -40,6 +41,8 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path="*" element={<Error />} />
+        <Route path="/error" element={<Error />} />
       </Routes>
       <ToastContainer style={{ fontWeight: "500", fontSize: "2rem" }} />
       <ScrollTop />
