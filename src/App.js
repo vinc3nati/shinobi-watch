@@ -13,6 +13,7 @@ import { Login } from "./pages/Auth/Login";
 import { Signup } from "./pages/Auth/Signup";
 import { PrivateRoute } from "./components/PrivateRoutes/PrivateRoute";
 import { Profile } from "./pages/Profile/Profile";
+import { Error } from "./pages/Error/Error";
 
 function App() {
   const { loader } = useData();
@@ -24,7 +25,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login title="login" />} />
         <Route path="/signup" element={<Signup title="register" />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home title="home" />} />
         <Route path="/explore" element={<Explore />}>
           <Route path="" element={<VideoList title="explore" />} />
         </Route>
@@ -40,6 +41,8 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path="*" element={<Error title="Error" />} />
+        <Route path="/error" element={<Error title="Error" />} />
       </Routes>
       <ToastContainer style={{ fontWeight: "500", fontSize: "2rem" }} />
       <ScrollTop />

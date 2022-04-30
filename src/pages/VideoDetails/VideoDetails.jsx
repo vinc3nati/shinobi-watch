@@ -1,13 +1,15 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { useParams } from "react-router-dom";
 import { BsCollectionPlayFill, BsShareFill } from "react-icons/bs";
 import { MdWatchLater } from "react-icons/md";
+import { Navigate } from "react-router-dom";
 import { ToastMessage } from "../../components/Toast/Toast";
 import { ToastType } from "../../utils/constants";
 import { Loader } from "../../components/Loader/Loader";
 import { useData } from "../../context";
 import { VideoCard } from "../Videos/VideoCard";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
+
 const VideoPlayer = lazy(() => import("./VideoPlayer"));
 
 export const VideoDetails = ({ title }) => {
@@ -68,20 +70,20 @@ export const VideoDetails = ({ title }) => {
 
   return (
     <>
-      {/* TODO:
-  if no video is found navigate to error page
-  */}
-      <div className="video-details-container">
-        <Suspense fallback={<Loader />}>
-          <VideoPlayer video={videoToDisplay} />
-        </Suspense>
-        <div className="suggested-videos">
-          {relatedVideos &&
-            relatedVideos.map((item) => (
-              <VideoCard key={item._id} video={item} menuItems={MenuItems} />
-            ))}
+      {!videoToDisplay && <Navigate to="/error" replace />}
+      {videoToDisplay && (
+        <div className="video-details-container">
+          <Suspense fallback={<Loader />}>
+            <VideoPlayer video={videoToDisplay} />
+          </Suspense>
+          <div className="suggested-videos">
+            {relatedVideos &&
+              relatedVideos.map((item) => (
+                <VideoCard key={item._id} video={item} menuItems={MenuItems} />
+              ))}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
