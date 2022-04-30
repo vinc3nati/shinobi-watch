@@ -1,6 +1,8 @@
 import { useState, useContext, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser, signupUser } from "../services/user.service";
+import { ToastMessage } from "../components/Toast/Toast";
+import { ToastType } from "../utils/constants";
 
 const key = "SHINOBI_WATCH";
 
@@ -21,10 +23,13 @@ const AuthProvider = ({ children }) => {
           JSON.stringify({ user: foundUser, token: encodedToken })
         );
         setUser({ user: foundUser, token: encodedToken });
+        ToastMessage("Logged in successfully", ToastType.Success);
         navigate(from, { replace: true });
       }
     } catch (err) {
+      //  ['config', 'request', 'response', 'isAxiosError', 'toJSON']
       console.error(err);
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
     }
   };
 
@@ -39,16 +44,19 @@ const AuthProvider = ({ children }) => {
           JSON.stringify({ user: createdUser, token: encodedToken })
         );
         setUser({ user: createdUser, token: encodedToken });
+        ToastMessage("Sign up successful", ToastType.Success);
         navigate(from, { replace: true });
       }
     } catch (err) {
       console.error(err);
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
     }
   };
 
   const handleLogOut = () => {
     localStorage.removeItem(key);
     setUser({});
+    ToastMessage("Logged out", ToastType.Success);
     navigate("/");
   };
 

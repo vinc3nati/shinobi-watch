@@ -1,7 +1,7 @@
 import React from "react";
 import { BsCollectionPlayFill, BsShareFill } from "react-icons/bs";
 import { MdWatchLater } from "react-icons/md";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { ChipContainer } from "../../components/Chips/ChipContainer";
 import { ToastMessage } from "../../components/Toast/Toast";
 import { useData } from "../../context/data-context";
@@ -14,11 +14,13 @@ export const VideoList = ({ title }) => {
   const {
     state: { videos },
   } = useData();
-
   const { search } = useLocation();
   const query = new URLSearchParams(search);
   const searchQuery = query.get("type") ? query.get("type") : "all";
-
+  const isInvalid =
+    videos.length !== 0 &&
+    searchQuery !== "all" &&
+    !videos.some((item) => item.category.includes(searchQuery));
   const videoData =
     searchQuery === "all"
       ? videos
@@ -67,14 +69,23 @@ export const VideoList = ({ title }) => {
 
   return (
     <>
-      <ChipContainer />
+      {!isInvalid && (
+        <>
+          <ChipContainer />
 
-      <div className="video-list">
-        {videoData.length > 0 &&
-          videoData.map((video) => (
-            <VideoCard key={video._id} video={video} menuItems={MenuItems} />
-          ))}
-      </div>
+          <div className="video-list">
+            {videoData.length > 0 &&
+              videoData.map((video) => (
+                <VideoCard
+                  key={video._id}
+                  video={video}
+                  menuItems={MenuItems}
+                />
+              ))}
+          </div>
+        </>
+      )}
+      {isInvalid && <Navigate to="/error" replace />}
     </>
   );
 };
