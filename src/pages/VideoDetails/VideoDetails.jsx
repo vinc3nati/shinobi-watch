@@ -18,7 +18,7 @@ export const VideoDetails = ({ title }) => {
     state: { videos },
   } = useData();
   const { videoId } = useParams();
-  const videoToDisplay = videos.find((elem) => elem._id === videoId);
+  const videoToDisplay = videos.find((elem) => elem._id === videoId) || [];
   const relatedVideos = videos.filter(
     (ele) =>
       ele._id !== videoId &&

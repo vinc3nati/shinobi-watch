@@ -47,6 +47,16 @@ export const reducer = (state, { type, payload }) => {
     case ACTIONS.ClearFilters:
       return { ...state, filters: initialState.filters };
 
+    case ACTIONS.ClearAll:
+      return {
+        ...state,
+        playlists: [],
+        history: [],
+        liked: [],
+        watchLater: [],
+        uploadedVideos: [],
+      };
+
     default:
       return { ...state };
   }

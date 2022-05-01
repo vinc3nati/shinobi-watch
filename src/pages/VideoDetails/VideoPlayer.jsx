@@ -3,16 +3,27 @@ import ReactPlayer from "react-player/youtube";
 import { FaVideo, FaThumbsUp, FaUpload, FaHistory } from "react-icons/fa";
 import { BsCollectionPlayFill, BsShareFill } from "react-icons/bs";
 import { MdWatchLater } from "react-icons/md";
-import { useData } from "../../context";
+import { useAuth, useData } from "../../context";
 import { ACTIONS } from "../../utils/constants";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const VideoPlayer = ({ video }) => {
   const [comment, setComment] = useState("");
   const {
-    state: { videos },
+    state: { videos, liked },
     dispatch,
+    addToLikedVideo,
+    removeLikedVideo,
   } = useData();
+  const {
+    user: { token },
+  } = useAuth();
   const playerRef = useRef(null);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const isLiked = liked.some((item) => item._id === video._id);
+
   const increaseView = () => {
     const updatedList = videos.map((item) =>
       item._id === video._id ? { ...item, viewCount: item.viewCount + 1 } : item
@@ -22,6 +33,16 @@ const VideoPlayer = ({ video }) => {
 
   const handleChange = (e) => {
     setComment(e.target.value);
+  };
+
+  const handleLike = () => {
+    if (!token) {
+      navigate("/login", { state: { from: pathname } });
+      return;
+    }
+    isLiked
+      ? removeLikedVideo({ videoId: video._id })
+      : addToLikedVideo({ video });
   };
 
   return (
@@ -45,7 +66,10 @@ const VideoPlayer = ({ video }) => {
           <p>{video?.creator}</p>
         </div>
         <div className="video-player-actions">
-          <FaThumbsUp className="video-player-icon" />
+          <FaThumbsUp
+            className={`video-player-icon ${isLiked ? "active" : ""}`}
+            onClick={handleLike}
+          />
           <MdWatchLater className="video-player-icon" />
           <BsCollectionPlayFill className="video-player-icon" />
           <BsShareFill className="video-player-icon" />
@@ -54,7 +78,7 @@ const VideoPlayer = ({ video }) => {
       <p className="video-description">{video?.description}</p>
       <div className="comment-container">
         <div className="input-comment">
-          <div class="input-grp fancy">
+          <div className="input-grp fancy">
             <input
               id="comment-input"
               type="text"
@@ -62,7 +86,7 @@ const VideoPlayer = ({ video }) => {
               onChange={handleChange}
               placeholder="Comment"
             />
-            <label for="comment-input">Comment</label>
+            <label htmlFor="comment-input">Comment</label>
           </div>
           <button disabled={!comment.length} className="btn outline-primary">
             add

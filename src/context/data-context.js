@@ -6,9 +6,17 @@ import React, {
   useState,
 } from "react";
 import { toast } from "react-toastify";
-import { getAllCategories, getAllVideos } from "../services/video.service";
-import { ACTIONS } from "../utils/constants";
+import { ToastMessage } from "../components/Toast/Toast";
+import {
+  addLikedVideos,
+  getAllCategories,
+  getAllVideos,
+  getLikedVideos,
+  removeLikedVideos,
+} from "../services/video.service";
+import { ACTIONS, ToastType } from "../utils/constants";
 import { initialState, reducer } from "../utils/reducer";
+import { useAuth } from "./auth-context";
 
 const DataContext = createContext();
 
@@ -16,6 +24,59 @@ const DataProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [playlistModal, setPlaylistModal] = useState(false);
   const [loader, setLoader] = useState(false);
+  const {
+    user: { token },
+  } = useAuth();
+
+  const resetFunction = () => {
+    setPlaylistModal(false);
+    dispatch({ type: ACTIONS.ClearAll });
+  };
+
+  const getAllLikedVideos = async () => {
+    try {
+      const response = await getLikedVideos({ token });
+      if (response.data.likes) {
+        dispatch({
+          type: ACTIONS.SetLikedVideos,
+          payload: { liked: response.data.likes },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    }
+  };
+
+  const addToLikedVideo = async ({ video }) => {
+    try {
+      const response = await addLikedVideos({ token, video });
+      if (response.data.likes) {
+        dispatch({
+          type: ACTIONS.SetLikedVideos,
+          payload: { liked: response.data.likes },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    }
+  };
+
+  const removeLikedVideo = async ({ videoId }) => {
+    setLoader(true);
+    try {
+      const response = await removeLikedVideos({ token, videoId });
+      if (response.data.likes) {
+        dispatch({
+          type: ACTIONS.SetLikedVideos,
+          payload: { liked: response.data.likes },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    } finally {
+      setLoader(false);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -44,6 +105,14 @@ const DataProvider = ({ children }) => {
     })();
   }, []);
 
+  useEffect(() => {
+    if (token) {
+      getAllLikedVideos();
+    } else {
+      resetFunction();
+    }
+  }, [token]);
+
   return (
     <DataContext.Provider
       value={{
@@ -53,6 +122,9 @@ const DataProvider = ({ children }) => {
         setLoader,
         playlistModal,
         setPlaylistModal,
+        getAllLikedVideos,
+        addToLikedVideo,
+        removeLikedVideo,
       }}
     >
       {children}
