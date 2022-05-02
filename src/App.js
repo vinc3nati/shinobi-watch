@@ -15,6 +15,7 @@ import { PrivateRoute } from "./components/PrivateRoutes/PrivateRoute";
 import { Profile } from "./pages/Profile/Profile";
 import { Error } from "./pages/Error/Error";
 import { LikedVideos } from "./pages/LikedVideos/LikedVideos";
+import { Watchlater } from "./pages/Watchlater/Watchlater";
 
 function App() {
   const { loader } = useData();
@@ -34,6 +35,14 @@ function App() {
             element={
               <PrivateRoute>
                 <LikedVideos title="liked" />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="watchlater"
+            element={
+              <PrivateRoute>
+                <Watchlater title="watch later" />
               </PrivateRoute>
             }
           />

@@ -3,27 +3,33 @@ import ReactPlayer from "react-player/youtube";
 import { FaEye, FaThumbsUp } from "react-icons/fa";
 import { BsCollectionPlayFill, BsShareFill } from "react-icons/bs";
 import { MdWatchLater } from "react-icons/md";
+import { v4 as uuid } from "uuid";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth, useData } from "../../context";
 import { ACTIONS } from "../../utils/constants";
-import { useLocation, useNavigate } from "react-router-dom";
+import { capitalize } from "../../utils/capitalize";
 
 const VideoPlayer = ({ video }) => {
   const [comment, setComment] = useState("");
   const [disabled, setDisabled] = useState(false);
   const {
-    state: { videos, liked },
+    state: { videos, liked, watchLater },
     dispatch,
     addToLikedVideo,
     removeLikedVideo,
+    addToWatchlater,
+    removeFromWatchlater,
+    updateVideoComments,
   } = useData();
   const {
-    user: { token },
+    user: { user, token },
   } = useAuth();
   const playerRef = useRef(null);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const isLiked = liked.some((item) => item._id === video._id);
+  const isWatchlater = watchLater.some((item) => item._id === video._id);
 
   const increaseView = () => {
     const updatedList = videos.map((item) =>
@@ -46,6 +52,31 @@ const VideoPlayer = ({ video }) => {
       ? await removeLikedVideo({ videoId: video._id })
       : await addToLikedVideo({ video });
     setDisabled(false);
+  };
+
+  const handleWatchlater = async () => {
+    if (!token) {
+      navigate("/login", { state: { from: pathname } });
+      return;
+    }
+    setDisabled(true);
+    isWatchlater
+      ? await removeFromWatchlater({ videoId: video._id })
+      : await addToWatchlater({ video });
+    setDisabled(false);
+  };
+
+  const updateComments = async () => {
+    const singleComment = {
+      _id: uuid(),
+      user_name: capitalize(user.name),
+      comment,
+    };
+    await updateVideoComments({
+      videoId: video._id,
+      comments: video?.comments?.concat(singleComment),
+    });
+    setComment("");
   };
 
   return (
@@ -80,7 +111,8 @@ const VideoPlayer = ({ video }) => {
             style={
               disabled ? { pointerEvents: "none", cursor: "not-allowed" } : null
             }
-            className="video-player-icon"
+            className={`video-player-icon ${isWatchlater ? "active" : ""}`}
+            onClick={handleWatchlater}
           />
           <BsCollectionPlayFill
             style={
@@ -114,7 +146,11 @@ const VideoPlayer = ({ video }) => {
             />
             <label htmlFor="comment-input">Comment</label>
           </div>
-          <button disabled={!comment.length} className="btn outline-primary">
+          <button
+            disabled={!comment.length}
+            onClick={updateComments}
+            className="btn primary"
+          >
             add
           </button>
         </div>
@@ -123,8 +159,8 @@ const VideoPlayer = ({ video }) => {
             <div className="user-comment" key={item._id}>
               <div class="avatar avatar-text md">{item?.user_name[0]}</div>
               <div className="user-text-comment">
-                <p className="text-bold">{item?.user_name}</p>
-                <p>{item?.comment}</p>
+                <p>{item?.user_name}</p>
+                <p className="text-light">{item?.comment}</p>
               </div>
             </div>
           ))}

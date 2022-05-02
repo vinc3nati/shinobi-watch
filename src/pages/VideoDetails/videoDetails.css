@@ -91,10 +91,6 @@
     border-radius: var(--border-radius-3);
 }
 
-/* .comment-container {
-    margin-bottom: 2rem;
-} */
-
 .comment-container .input-grp {
     margin-bottom: 0.5rem;
 }
@@ -102,6 +98,12 @@
 .input-comment {
     display: flex;
     align-items: flex-start;
+    gap: 1rem;
+}
+
+.video-comment {
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
 }
 
