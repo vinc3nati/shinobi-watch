@@ -149,7 +149,7 @@ const VideoPlayer = ({ video }) => {
           <button
             disabled={!comment.length}
             onClick={updateComments}
-            className="btn outline-primary"
+            className="btn primary"
           >
             add
           </button>

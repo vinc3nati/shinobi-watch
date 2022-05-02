@@ -91,10 +91,6 @@
     border-radius: var(--border-radius-3);
 }
 
-/* .comment-container {
-    margin-bottom: 2rem;
-} */
-
 .comment-container .input-grp {
     margin-bottom: 0.5rem;
 }
