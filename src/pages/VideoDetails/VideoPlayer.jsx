@@ -159,8 +159,8 @@ const VideoPlayer = ({ video }) => {
             <div className="user-comment" key={item._id}>
               <div class="avatar avatar-text md">{item?.user_name[0]}</div>
               <div className="user-text-comment">
-                <p className="text-bold">{item?.user_name}</p>
-                <p>{item?.comment}</p>
+                <p>{item?.user_name}</p>
+                <p className="text-light">{item?.comment}</p>
               </div>
             </div>
           ))}

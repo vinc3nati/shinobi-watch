@@ -105,6 +105,12 @@
     gap: 1rem;
 }
 
+.video-comment {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 .user-comment {
     display: flex;
     align-items: center;
