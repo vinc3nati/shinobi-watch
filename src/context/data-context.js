@@ -9,10 +9,14 @@ import { toast } from "react-toastify";
 import { ToastMessage } from "../components/Toast/Toast";
 import {
   addLikedVideos,
+  deleteWatchlaterVideos,
   getAllCategories,
   getAllVideos,
   getLikedVideos,
+  getWatchlaterVideos,
+  postWatchlaterVideos,
   removeLikedVideos,
+  updateVideo,
 } from "../services/video.service";
 import { ACTIONS, ToastType } from "../utils/constants";
 import { initialState, reducer } from "../utils/reducer";
@@ -78,6 +82,68 @@ const DataProvider = ({ children }) => {
     }
   };
 
+  const getWatchlater = async () => {
+    try {
+      const response = await getWatchlaterVideos({ token });
+      if (response.data.watchlater) {
+        dispatch({
+          type: ACTIONS.SetWatchLater,
+          payload: { watchLater: response.data.watchlater },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    }
+  };
+
+  const addToWatchlater = async ({ video }) => {
+    try {
+      const response = await postWatchlaterVideos({ token, video });
+      if (response.data.watchlater) {
+        dispatch({
+          type: ACTIONS.SetWatchLater,
+          payload: { watchLater: response.data.watchlater },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    }
+  };
+
+  const removeFromWatchlater = async ({ videoId }) => {
+    setLoader(true);
+    try {
+      const response = await deleteWatchlaterVideos({ token, videoId });
+      if (response.data.watchlater) {
+        dispatch({
+          type: ACTIONS.SetWatchLater,
+          payload: { watchLater: response.data.watchlater },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  const updateVideoComments = async ({ videoId, comments }) => {
+    setLoader(true);
+    try {
+      const response = await updateVideo({ videoId, comments });
+      if (response.status === 200) {
+        dispatch({
+          type: ACTIONS.SetVideos,
+          payload: { videos: response.data.videos },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
   useEffect(() => {
     (async () => {
       try {
@@ -125,6 +191,10 @@ const DataProvider = ({ children }) => {
         getAllLikedVideos,
         addToLikedVideo,
         removeLikedVideo,
+        getWatchlater,
+        addToWatchlater,
+        removeFromWatchlater,
+        updateVideoComments,
       }}
     >
       {children}

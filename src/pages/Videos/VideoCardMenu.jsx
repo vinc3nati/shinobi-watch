@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
+import { capitalize } from "../../utils/capitalize";
 
 export const VideoCardMenu = ({ menuItems, video }) => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -24,7 +25,7 @@ export const VideoCardMenu = ({ menuItems, video }) => {
                 key={_id}
               >
                 {icon}
-                <span>{text}</span>
+                <span>{capitalize(text)}</span>
               </li>
             ))}
         </ul>

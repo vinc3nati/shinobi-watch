@@ -32,3 +32,28 @@ export const removeLikedVideos = async ({ token, videoId }) =>
       authorization: token,
     },
   });
+
+export const getWatchlaterVideos = async ({ token }) =>
+  await axios.get(VIDEOAPI.WATCH_LATER, {
+    headers: {
+      authorization: token,
+    },
+  });
+
+export const postWatchlaterVideos = async ({ token, video }) =>
+  await axios.post(
+    VIDEOAPI.WATCH_LATER,
+    { video },
+    {
+      headers: {
+        authorization: token,
+      },
+    }
+  );
+
+export const deleteWatchlaterVideos = async ({ token, videoId }) =>
+  await axios.delete(`${VIDEOAPI.WATCH_LATER}/${videoId}`, {
+    headers: {
+      authorization: token,
+    },
+  });

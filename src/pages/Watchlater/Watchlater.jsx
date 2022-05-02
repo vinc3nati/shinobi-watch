@@ -1,21 +1,21 @@
 import React from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { BsCollectionPlayFill } from "react-icons/bs";
-import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import { useData } from "../../context";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import { PageSkeleton } from "../../components/PageSkeleton/PageSkeleton";
 
-export const LikedVideos = ({ title }) => {
+export const Watchlater = ({ title }) => {
   useDocumentTitle(title);
   const {
-    state: { liked },
-    removeLikedVideo,
+    state: { watchLater },
+    removeFromWatchlater,
   } = useData();
 
   const clickHandler = async (id, video) => {
     switch (id) {
       case 0:
-        removeLikedVideo({ videoId: video._id });
+        removeFromWatchlater({ videoId: video._id });
         break;
       case 1:
         //TODO: save to playlist
@@ -24,7 +24,7 @@ export const LikedVideos = ({ title }) => {
         break;
     }
   };
-  const liked_menu = [
+  const watchlater_menu = [
     {
       _id: 0,
       clickHandler,
@@ -39,7 +39,12 @@ export const LikedVideos = ({ title }) => {
       text: "save to playlist",
     },
   ];
+
   return (
-    <PageSkeleton videos={liked} menuItems={liked_menu} text="Liked Videos" />
+    <PageSkeleton
+      videos={watchLater}
+      menuItems={watchlater_menu}
+      text="Watch Later Videos"
+    />
   );
 };
