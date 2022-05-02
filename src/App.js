@@ -14,6 +14,7 @@ import { Signup } from "./pages/Auth/Signup";
 import { PrivateRoute } from "./components/PrivateRoutes/PrivateRoute";
 import { Profile } from "./pages/Profile/Profile";
 import { Error } from "./pages/Error/Error";
+import { LikedVideos } from "./pages/LikedVideos/LikedVideos";
 
 function App() {
   const { loader } = useData();
@@ -27,7 +28,15 @@ function App() {
         <Route path="/signup" element={<Signup title="register" />} />
         <Route path="/" element={<Home title="home" />} />
         <Route path="/explore" element={<Explore />}>
-          <Route path="" element={<VideoList title="explore" />} />
+          <Route index element={<VideoList title="explore" />} />
+          <Route
+            path="liked"
+            element={
+              <PrivateRoute>
+                <LikedVideos title="liked" />
+              </PrivateRoute>
+            }
+          />
         </Route>
         <Route
           path="/explore/:videoId"

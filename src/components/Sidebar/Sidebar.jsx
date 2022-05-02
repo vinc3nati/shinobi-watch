@@ -14,7 +14,7 @@ export const Sidebar = () => {
   };
   return (
     <ul className="sidebar">
-      <NavLink to="/explore" className={toggleActive}>
+      <NavLink to="/explore" end className={toggleActive}>
         <FaVideo />
         <span>videos</span>
       </NavLink>
