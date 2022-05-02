@@ -18,7 +18,6 @@ export const SmallVideo = ({ video, menuItems }) => {
           <VideoCardMenu menuItems={menuItems} video={video} />
         </p>
         <p className="small-video-creator">{video?.creator}</p>
-        <span></span>
       </div>
     </article>
   );

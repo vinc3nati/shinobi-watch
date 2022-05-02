@@ -3,10 +3,8 @@ import { FaTrashAlt } from "react-icons/fa";
 import { BsCollectionPlayFill } from "react-icons/bs";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import { useAuth, useData } from "../../context";
-import { SmallVideo } from "../../components/SmallVideo/SmallVideo";
-import poster from "../../assets/poster.png";
-import { capitalize } from "../../utils/capitalize";
 import { useNavigate } from "react-router-dom";
+import { PageSkeleton } from "../../components/PageSkeleton/PageSkeleton";
 
 export const LikedVideos = ({ title }) => {
   useDocumentTitle(title);
@@ -14,11 +12,6 @@ export const LikedVideos = ({ title }) => {
     state: { liked },
     removeLikedVideo,
   } = useData();
-  const {
-    user: { user },
-  } = useAuth();
-
-  const navigate = useNavigate();
 
   const clickHandler = async (id, video) => {
     switch (id) {
@@ -41,40 +34,13 @@ export const LikedVideos = ({ title }) => {
       text: "remove",
     },
     {
-      _id: 0,
+      _id: 1,
       clickHandler,
       icon: <BsCollectionPlayFill />,
       text: "save to playlist",
     },
   ];
   return (
-    <div className="liked-page-wrapper">
-      <div className="poster">
-        <div className="poster-img-container">
-          <img className="img img-responsive" src={poster} alt="poster img" />
-          <p className="poster-video-count">
-            Liked Videos ({liked?.length} &nbsp;videos)
-          </p>
-        </div>
-        <div className="poster-author">
-          <div class="avatar avatar-text md">{user.name[0]}</div>&nbsp;
-          <span>{capitalize(user.name)}</span>
-        </div>
-      </div>
-      {liked?.length === 0 ? (
-        <div className="empty-list">
-          <h2>No liked videos in your arsenal</h2>
-          <button className="btn primary" onClick={() => navigate("/explore")}>
-            explore
-          </button>
-        </div>
-      ) : (
-        <div className="liked-video-container">
-          {liked?.map((item) => (
-            <SmallVideo key={item._id} menuItems={liked_menu} video={item} />
-          ))}
-        </div>
-      )}
-    </div>
+    <PageSkeleton videos={liked} menuItems={liked_menu} text="Liked Videos" />
   );
 };

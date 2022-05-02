@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import ReactPlayer from "react-player/youtube";
-import { FaVideo, FaThumbsUp, FaUpload, FaHistory } from "react-icons/fa";
+import { FaEye, FaThumbsUp } from "react-icons/fa";
 import { BsCollectionPlayFill, BsShareFill } from "react-icons/bs";
 import { MdWatchLater } from "react-icons/md";
 import { useAuth, useData } from "../../context";
@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const VideoPlayer = ({ video }) => {
   const [comment, setComment] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const {
     state: { videos, liked },
     dispatch,
@@ -35,14 +36,16 @@ const VideoPlayer = ({ video }) => {
     setComment(e.target.value);
   };
 
-  const handleLike = () => {
+  const handleLike = async () => {
     if (!token) {
       navigate("/login", { state: { from: pathname } });
       return;
     }
+    setDisabled(true);
     isLiked
-      ? removeLikedVideo({ videoId: video._id })
-      : addToLikedVideo({ video });
+      ? await removeLikedVideo({ videoId: video._id })
+      : await addToLikedVideo({ video });
+    setDisabled(false);
   };
 
   return (
@@ -67,14 +70,37 @@ const VideoPlayer = ({ video }) => {
         </div>
         <div className="video-player-actions">
           <FaThumbsUp
+            style={
+              disabled ? { pointerEvents: "none", cursor: "not-allowed" } : null
+            }
             className={`video-player-icon ${isLiked ? "active" : ""}`}
             onClick={handleLike}
           />
-          <MdWatchLater className="video-player-icon" />
-          <BsCollectionPlayFill className="video-player-icon" />
-          <BsShareFill className="video-player-icon" />
+          <MdWatchLater
+            style={
+              disabled ? { pointerEvents: "none", cursor: "not-allowed" } : null
+            }
+            className="video-player-icon"
+          />
+          <BsCollectionPlayFill
+            style={
+              disabled ? { pointerEvents: "none", cursor: "not-allowed" } : null
+            }
+            className="video-player-icon"
+          />
+          <BsShareFill
+            style={
+              disabled ? { pointerEvents: "none", cursor: "not-allowed" } : null
+            }
+            className="video-player-icon"
+          />
         </div>
       </div>
+      {video?.viewCount !== 0 && (
+        <div className="view-count">
+          <FaEye /> {video?.viewCount > 99 ? "99+" : video?.viewCount}
+        </div>
+      )}
       <p className="video-description">{video?.description}</p>
       <div className="comment-container">
         <div className="input-comment">

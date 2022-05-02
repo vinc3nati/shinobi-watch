@@ -79,6 +79,18 @@
     border-bottom: 2px solid var(--color-primary);
 }
 
+.view-count {
+    padding: 0.5rem 1rem;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    color: var(--color-warning);
+    border: 1px solid var(--color-warning);
+    border-radius: var(--border-radius-3);
+}
+
 /* .comment-container {
     margin-bottom: 2rem;
 } */
