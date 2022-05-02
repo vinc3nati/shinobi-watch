@@ -6,20 +6,22 @@ import { MdWatchLater } from "react-icons/md";
 import { v4 as uuid } from "uuid";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth, useData } from "../../context";
-import { ACTIONS } from "../../utils/constants";
+import { ACTIONS, ToastType } from "../../utils/constants";
 import { capitalize } from "../../utils/capitalize";
+import { ToastMessage } from "../../components/Toast/Toast";
 
 const VideoPlayer = ({ video }) => {
   const [comment, setComment] = useState("");
   const [disabled, setDisabled] = useState(false);
   const {
-    state: { videos, liked, watchLater },
+    state: { videos, liked, watchLater, history },
     dispatch,
     addToLikedVideo,
     removeLikedVideo,
     addToWatchlater,
     removeFromWatchlater,
     updateVideoComments,
+    addToHistory,
   } = useData();
   const {
     user: { user, token },
@@ -67,6 +69,10 @@ const VideoPlayer = ({ video }) => {
   };
 
   const updateComments = async () => {
+    if (!token) {
+      ToastMessage("Please login to comment", ToastType.Error);
+      return;
+    }
     const singleComment = {
       _id: uuid(),
       user_name: capitalize(user.name),
@@ -79,6 +85,11 @@ const VideoPlayer = ({ video }) => {
     setComment("");
   };
 
+  const handleHistory = async () => {
+    if (history.find((item) => item._id === video?._id)) return;
+    await addToHistory({ video });
+  };
+
   return (
     <div className="video-player">
       <div className="video-container">
@@ -89,7 +100,7 @@ const VideoPlayer = ({ video }) => {
           width={"100%"}
           height={"100%"}
           onStart={() => {
-            // TODO: add to history on auth
+            handleHistory();
             increaseView();
           }}
         />

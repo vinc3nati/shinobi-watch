@@ -13,10 +13,10 @@ export const SmallVideo = ({ video, menuItems }) => {
         />
       </Link>
       <div className="small-video-content">
-        <p className="small-video-title">
+        <div className="small-video-title">
           <span>{video?.title}</span>
           <VideoCardMenu menuItems={menuItems} video={video} />
-        </p>
+        </div>
         <p className="small-video-creator">{video?.creator}</p>
       </div>
     </article>

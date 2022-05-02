@@ -32,6 +32,7 @@
 .poster-video-count {
     font-size: 2rem;
     color: var(--color-warning-light);
+    margin-bottom: 1rem;
 }
 
 .skeleton-video-container {
