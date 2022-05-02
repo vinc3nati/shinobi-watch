@@ -57,3 +57,35 @@ export const deleteWatchlaterVideos = async ({ token, videoId }) =>
       authorization: token,
     },
   });
+
+export const getAllHistory = async ({ token }) =>
+  await axios.get(VIDEOAPI.HISTORY, {
+    headers: {
+      authorization: token,
+    },
+  });
+
+export const postHistory = async ({ token, video }) =>
+  await axios.post(
+    VIDEOAPI.HISTORY,
+    { video },
+    {
+      headers: {
+        authorization: token,
+      },
+    }
+  );
+
+export const deleteHistory = async ({ token, videoId }) =>
+  await axios.delete(`${VIDEOAPI.HISTORY}/${videoId}`, {
+    headers: {
+      authorization: token,
+    },
+  });
+
+export const deleteAllHistory = async ({ token }) =>
+  await axios.delete(`${VIDEOAPI.HISTORY}/all`, {
+    headers: {
+      authorization: token,
+    },
+  });

@@ -5,7 +5,7 @@ import poster from "../../assets/poster.png";
 import { capitalize } from "../../utils/capitalize";
 import { useNavigate } from "react-router-dom";
 
-export const PageSkeleton = ({ videos, menuItems, text }) => {
+export const PageSkeleton = ({ videos, menuItems, text, clearAll }) => {
   const {
     user: { user },
   } = useAuth();
@@ -18,9 +18,14 @@ export const PageSkeleton = ({ videos, menuItems, text }) => {
           <p className="poster-video-count">
             {text} ({videos?.length} &nbsp;video/s)
           </p>
+          {clearAll && videos.length !== 0 && (
+            <button className="btn outline-error" onClick={clearAll}>
+              remove all
+            </button>
+          )}
         </div>
         <div className="poster-author">
-          <div class="avatar avatar-text md">{user.name[0]}</div>&nbsp;
+          <div className="avatar avatar-text md">{user.name[0]}</div>&nbsp;
           <span>{capitalize(user.name)}</span>
         </div>
       </div>

@@ -9,11 +9,15 @@ import { toast } from "react-toastify";
 import { ToastMessage } from "../components/Toast/Toast";
 import {
   addLikedVideos,
+  deleteAllHistory,
+  deleteHistory,
   deleteWatchlaterVideos,
   getAllCategories,
+  getAllHistory,
   getAllVideos,
   getLikedVideos,
   getWatchlaterVideos,
+  postHistory,
   postWatchlaterVideos,
   removeLikedVideos,
   updateVideo,
@@ -37,6 +41,7 @@ const DataProvider = ({ children }) => {
     dispatch({ type: ACTIONS.ClearAll });
   };
 
+  // Liked Videos
   const getAllLikedVideos = async () => {
     try {
       const response = await getLikedVideos({ token });
@@ -82,6 +87,7 @@ const DataProvider = ({ children }) => {
     }
   };
 
+  // Watch Later
   const getWatchlater = async () => {
     try {
       const response = await getWatchlaterVideos({ token });
@@ -127,6 +133,7 @@ const DataProvider = ({ children }) => {
     }
   };
 
+  // Comments
   const updateVideoComments = async ({ videoId, comments }) => {
     setLoader(true);
     try {
@@ -135,6 +142,72 @@ const DataProvider = ({ children }) => {
         dispatch({
           type: ACTIONS.SetVideos,
           payload: { videos: response.data.videos },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  // History
+  const getHistory = async () => {
+    setLoader(true);
+    try {
+      const response = await getAllHistory({ token });
+      if (response.data.history) {
+        dispatch({
+          type: ACTIONS.SetHistory,
+          payload: { history: response.data.history },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  const addToHistory = async ({ video }) => {
+    try {
+      const response = await postHistory({ token, video });
+      if (response.data.history) {
+        dispatch({
+          type: ACTIONS.SetHistory,
+          payload: { history: response.data.history },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    }
+  };
+
+  const removeFromHistory = async ({ videoId }) => {
+    setLoader(true);
+    try {
+      const response = await deleteHistory({ token, videoId });
+      if (response.data.history) {
+        dispatch({
+          type: ACTIONS.SetHistory,
+          payload: { history: response.data.history },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  const removeAllHistory = async () => {
+    setLoader(true);
+    try {
+      const response = await deleteAllHistory({ token });
+      if (response.data.history) {
+        dispatch({
+          type: ACTIONS.SetHistory,
+          payload: { history: response.data.history },
         });
       }
     } catch (err) {
@@ -164,7 +237,7 @@ const DataProvider = ({ children }) => {
         }
       } catch (err) {
         console.error(err);
-        toast("Problem fetching videos");
+        ToastMessage("Problem fetching videos", ToastType.Error);
       } finally {
         setLoader(false);
       }
@@ -174,6 +247,8 @@ const DataProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       getAllLikedVideos();
+      getWatchlater();
+      getHistory();
     } else {
       resetFunction();
     }
@@ -195,6 +270,10 @@ const DataProvider = ({ children }) => {
         addToWatchlater,
         removeFromWatchlater,
         updateVideoComments,
+        getHistory,
+        addToHistory,
+        removeFromHistory,
+        removeAllHistory,
       }}
     >
       {children}

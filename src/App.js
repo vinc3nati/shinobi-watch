@@ -16,6 +16,7 @@ import { Profile } from "./pages/Profile/Profile";
 import { Error } from "./pages/Error/Error";
 import { LikedVideos } from "./pages/LikedVideos/LikedVideos";
 import { Watchlater } from "./pages/Watchlater/Watchlater";
+import { History } from "./pages/History/History";
 
 function App() {
   const { loader } = useData();
@@ -43,6 +44,14 @@ function App() {
             element={
               <PrivateRoute>
                 <Watchlater title="watch later" />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="history"
+            element={
+              <PrivateRoute>
+                <History title="history" />
               </PrivateRoute>
             }
           />
