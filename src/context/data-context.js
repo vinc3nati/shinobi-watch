@@ -11,13 +11,18 @@ import {
   addLikedVideos,
   deleteAllHistory,
   deleteHistory,
+  deletePlaylist,
+  deleteVideoPlaylist,
   deleteWatchlaterVideos,
   getAllCategories,
   getAllHistory,
+  getAllPlaylist,
   getAllVideos,
   getLikedVideos,
   getWatchlaterVideos,
   postHistory,
+  postPlaylist,
+  postVideoPlaylist,
   postWatchlaterVideos,
   removeLikedVideos,
   updateVideo,
@@ -30,7 +35,10 @@ const DataContext = createContext();
 
 const DataProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [playlistModal, setPlaylistModal] = useState(false);
+  const [playlistModal, setPlaylistModal] = useState({
+    show: false,
+    video: null,
+  });
   const [loader, setLoader] = useState(false);
   const {
     user: { token },
@@ -111,6 +119,7 @@ const DataProvider = ({ children }) => {
           payload: { watchLater: response.data.watchlater },
         });
       }
+      return { msg: "Video Added to Watchlater" };
     } catch (err) {
       ToastMessage(err.response.data.errors[0], ToastType.Error);
     }
@@ -217,6 +226,100 @@ const DataProvider = ({ children }) => {
     }
   };
 
+  const getAllPlaylistVideos = async () => {
+    try {
+      const response = await getAllPlaylist({ token });
+      if (response.data.playlists) {
+        dispatch({
+          type: ACTIONS.SetPlaylists,
+          payload: { playlists: response.data.playlists },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    }
+  };
+
+  const addToPlaylist = async ({ playlist }) => {
+    try {
+      const response = await postPlaylist({ token, playlist });
+      if (response.data.playlists) {
+        dispatch({
+          type: ACTIONS.SetPlaylists,
+          payload: { playlists: response.data.playlists },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    }
+  };
+
+  const removePlaylist = async ({ playlistId }) => {
+    setLoader(true);
+    try {
+      const response = await deletePlaylist({ token, playlistId });
+      if (response.data.playlists) {
+        dispatch({
+          type: ACTIONS.SetPlaylists,
+          payload: { playlists: response.data.playlists },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  const addVideoToPlaylist = async ({ playlistId, video }) => {
+    try {
+      const response = await postVideoPlaylist({ token, playlistId, video });
+      if (response.status === 200 || response.status === 201) {
+        const newPlaylist = state.playlists.reduce(
+          (acc, curr) =>
+            curr._id === response.data.playlist._id
+              ? [...acc, response.data.playlist]
+              : [...acc, curr],
+          []
+        );
+        dispatch({
+          type: ACTIONS.SetPlaylists,
+          payload: { playlists: newPlaylist },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    }
+  };
+
+  const removeVideoFromPlaylist = async ({ playlistId, videoId }) => {
+    setLoader(true);
+    try {
+      const response = await deleteVideoPlaylist({
+        token,
+        playlistId,
+        videoId,
+      });
+      if (response.data.playlist) {
+        const newPlaylist = state.playlists.reduce(
+          (acc, curr) =>
+            curr._id === response.data.playlist._id
+              ? [...acc, response.data.playlist]
+              : [...acc, curr],
+          []
+        );
+        dispatch({
+          type: ACTIONS.SetPlaylists,
+          payload: { playlists: newPlaylist },
+        });
+      }
+    } catch (err) {
+      ToastMessage(err.response.data.errors[0], ToastType.Error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
   useEffect(() => {
     (async () => {
       try {
@@ -249,6 +352,7 @@ const DataProvider = ({ children }) => {
       getAllLikedVideos();
       getWatchlater();
       getHistory();
+      getAllPlaylistVideos();
     } else {
       resetFunction();
     }
@@ -274,6 +378,11 @@ const DataProvider = ({ children }) => {
         addToHistory,
         removeFromHistory,
         removeAllHistory,
+        getAllPlaylistVideos,
+        addToPlaylist,
+        removePlaylist,
+        addVideoToPlaylist,
+        removeVideoFromPlaylist,
       }}
     >
       {children}

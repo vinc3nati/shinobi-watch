@@ -4,6 +4,7 @@
 @import url("./pages/Auth/auth.css");
 @import url("./pages/Profile/profile.css");
 @import url("./pages/Error/error.css");
+@import url("./pages/Playlist/playlist.css");
 @import url("./components/Navbar/navbar.css");
 @import url("./components/Account/account.css");
 @import url("./components/Footer/footer.css");
@@ -14,6 +15,7 @@
 @import url("./components/Chips/chips.css");
 @import url("./components/SmallVideo/smallVideo.css");
 @import url("./components/PageSkeleton/pageSkeleton.css");
+@import url("./components/PlaylistModal/playlistModal.css");
 
 :root {
   --border-radius-10: 10px;
@@ -70,6 +72,10 @@ section:not(#footer) {
 
 .text-error {
   color: var(--color-error)
+}
+
+.text-warning {
+  color: var(--color-warning);
 }
 
 /* Scrollbar */

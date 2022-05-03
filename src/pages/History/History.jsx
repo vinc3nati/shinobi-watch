@@ -1,6 +1,7 @@
 import React from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { BsCollectionPlayFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import { useData } from "../../context";
 import { PageSkeleton } from "../../components/PageSkeleton/PageSkeleton";
@@ -11,7 +12,9 @@ export const History = ({ title }) => {
     state: { history },
     removeFromHistory,
     removeAllHistory,
+    setPlaylistModal,
   } = useData();
+  const navigate = useNavigate();
 
   const clickHandler = async (id, video) => {
     switch (id) {
@@ -19,7 +22,7 @@ export const History = ({ title }) => {
         removeFromHistory({ videoId: video._id });
         break;
       case 1:
-        //TODO: save to playlist
+        await setPlaylistModal((prev) => ({ ...prev, show: true, video }));
         break;
       default:
         break;

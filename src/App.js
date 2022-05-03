@@ -17,13 +17,17 @@ import { Error } from "./pages/Error/Error";
 import { LikedVideos } from "./pages/LikedVideos/LikedVideos";
 import { Watchlater } from "./pages/Watchlater/Watchlater";
 import { History } from "./pages/History/History";
+import { PlaylistModal } from "./components/PlaylistModal/PlaylistModal";
+import { Playlist } from "./pages/Playlist/Playlist";
+import { SinglePlaylist } from "./pages/Playlist/SinglePlaylist";
 
 function App() {
-  const { loader } = useData();
+  const { loader, setPlaylistModal, playlistModal } = useData();
   const { pathname } = useLocation();
   return (
     <>
       {loader && <Loader />}
+      {playlistModal.show && <PlaylistModal />}
       {pathname !== "/login" && pathname !== "/signup" && <Navbar />}
       <Routes>
         <Route path="/login" element={<Login title="login" />} />
@@ -52,6 +56,22 @@ function App() {
             element={
               <PrivateRoute>
                 <History title="history" />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="playlists"
+            element={
+              <PrivateRoute>
+                <Playlist title="playlist" />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="playlists/:playlistId"
+            element={
+              <PrivateRoute>
+                <SinglePlaylist title="playlist" />
               </PrivateRoute>
             }
           />
