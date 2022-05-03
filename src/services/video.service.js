@@ -89,3 +89,53 @@ export const deleteAllHistory = async ({ token }) =>
       authorization: token,
     },
   });
+
+export const getAllPlaylist = async ({ token }) =>
+  await axios.get(VIDEOAPI.PLAYLISTS, {
+    headers: {
+      authorization: token,
+    },
+  });
+
+export const postPlaylist = async ({ token, playlist }) =>
+  await axios.post(
+    VIDEOAPI.PLAYLISTS,
+    { playlist },
+    {
+      headers: {
+        authorization: token,
+      },
+    }
+  );
+
+export const deletePlaylist = async ({ token, playlistId }) =>
+  await axios.delete(`${VIDEOAPI.PLAYLISTS}/${playlistId}`, {
+    headers: {
+      authorization: token,
+    },
+  });
+
+export const getSinglePlaylist = async ({ token, playlistId }) =>
+  await axios.get(`${VIDEOAPI.PLAYLISTS}/${playlistId}`, {
+    headers: {
+      authorization: token,
+    },
+  });
+
+export const postVideoPlaylist = async ({ token, playlistId, video }) =>
+  await axios.post(
+    `${VIDEOAPI.PLAYLISTS}/${playlistId}`,
+    { video },
+    {
+      headers: {
+        authorization: token,
+      },
+    }
+  );
+
+export const deleteVideoPlaylist = async ({ token, playlistId, videoId }) =>
+  await axios.delete(`${VIDEOAPI.PLAYLISTS}/${playlistId}/${videoId}`, {
+    headers: {
+      authorization: token,
+    },
+  });

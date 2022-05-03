@@ -1,10 +1,10 @@
 import React from "react";
 import { BsCollectionPlayFill, BsShareFill } from "react-icons/bs";
 import { MdWatchLater } from "react-icons/md";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { ChipContainer } from "../../components/Chips/ChipContainer";
 import { ToastMessage } from "../../components/Toast/Toast";
-import { useData } from "../../context/data-context";
+import { useData, useAuth } from "../../context";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import { ToastType } from "../../utils/constants";
 import { VideoCard } from "./VideoCard";
@@ -13,8 +13,15 @@ export const VideoList = ({ title }) => {
   useDocumentTitle(title);
   const {
     state: { videos },
+    addToWatchlater,
+    setPlaylistModal,
   } = useData();
-  const { search } = useLocation();
+  const {
+    user: { token },
+  } = useAuth();
+  const { search, pathname } = useLocation();
+  const navigate = useNavigate();
+
   const query = new URLSearchParams(search);
   const searchQuery = query.get("type") ? query.get("type") : "all";
   const isInvalid =
@@ -29,9 +36,20 @@ export const VideoList = ({ title }) => {
   const clickHandler = async (id, video) => {
     switch (id) {
       case 1: // check for login else save to watch later
+        if (!token) {
+          navigate("/login", { state: { from: pathname } });
+          return;
+        }
+        const res = await addToWatchlater({ video });
+        ToastMessage(res?.msg, ToastType.Success);
         break;
 
       case 2: // check for login else save to playlist
+        if (!token) {
+          navigate("/login", { state: { from: pathname } });
+          return;
+        }
+        await setPlaylistModal((prev) => ({ ...prev, show: true, video }));
         break;
 
       case 3: // copy video link

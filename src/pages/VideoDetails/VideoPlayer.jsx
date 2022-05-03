@@ -22,6 +22,7 @@ const VideoPlayer = ({ video }) => {
     removeFromWatchlater,
     updateVideoComments,
     addToHistory,
+    setPlaylistModal,
   } = useData();
   const {
     user: { user, token },
@@ -126,6 +127,9 @@ const VideoPlayer = ({ video }) => {
             onClick={handleWatchlater}
           />
           <BsCollectionPlayFill
+            onClick={() =>
+              setPlaylistModal((prev) => ({ ...prev, show: true, video }))
+            }
             style={
               disabled ? { pointerEvents: "none", cursor: "not-allowed" } : null
             }
@@ -168,7 +172,7 @@ const VideoPlayer = ({ video }) => {
         <div className="video-comment">
           {video?.comments?.map((item) => (
             <div className="user-comment" key={item._id}>
-              <div class="avatar avatar-text md">{item?.user_name[0]}</div>
+              <div className="avatar avatar-text md">{item?.user_name[0]}</div>
               <div className="user-text-comment">
                 <p>{item?.user_name}</p>
                 <p className="text-light">{item?.comment}</p>
