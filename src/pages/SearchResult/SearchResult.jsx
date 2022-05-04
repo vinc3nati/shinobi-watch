@@ -1,23 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BsCollectionPlayFill, BsShareFill } from "react-icons/bs";
 import { MdWatchLater } from "react-icons/md";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { ChipContainer } from "../../components/Chips/ChipContainer";
-import { ToastMessage } from "../../components/Toast/Toast";
-import { useData, useAuth } from "../../context";
+import { useAuth, useData } from "../../context";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
-import { ACTIONS, FILTERS, SORT_BY, ToastType } from "../../utils/constants";
-import { sortedVideo } from "../../utils/FilteredData";
-import { VideoCard } from "./VideoCard";
+import { VideoCard } from "../Videos/VideoCard";
+import { ToastMessage } from "../../components/Toast/Toast";
+import { ToastType } from "../../utils/constants";
 
-export const VideoList = ({ title }) => {
+export const SearchResult = ({ title }) => {
   useDocumentTitle(title);
   const {
-    state: {
-      videos,
-      filters: { sortBy },
-    },
-    dispatch,
+    state: { videos },
     addToWatchlater,
     setPlaylistModal,
   } = useData();
@@ -26,19 +20,17 @@ export const VideoList = ({ title }) => {
   } = useAuth();
   const { search, pathname } = useLocation();
   const navigate = useNavigate();
-
   const query = new URLSearchParams(search);
-  const searchQuery = query.get("type") ? query.get("type") : "all";
-  const isInvalid =
-    videos.length !== 0 &&
-    searchQuery !== "all" &&
-    !videos.some((item) => item.category.includes(searchQuery));
-  let videoData =
-    searchQuery === "all"
-      ? videos
-      : videos.filter((item) => item.category.includes(searchQuery));
+  const searchQuery = query.get("searchQuery");
 
-  videoData = sortedVideo(videoData, sortBy);
+  const searchResults = videos.filter(
+    ({ title, category }) =>
+      title.toLowerCase().includes(searchQuery?.toLowerCase()) ||
+      category.includes(searchQuery?.toLowerCase()) ||
+      searchQuery?.toLowerCase().includes(title.toLowerCase())
+  );
+  const foundItems = searchResults.length;
+
   const clickHandler = async (id, video) => {
     switch (id) {
       case 1: // check for login else save to watch later
@@ -91,25 +83,38 @@ export const VideoList = ({ title }) => {
     },
   ];
 
+  useEffect(() => {
+    if (!searchQuery) {
+      navigate("/explore");
+      return;
+    }
+  }, [searchQuery]);
   return (
-    <>
-      {!isInvalid && (
+    <article className="search-page">
+      {foundItems !== 0 ? (
         <>
-          <ChipContainer />
-
-          <div className="video-list">
-            {videoData.length > 0 &&
-              videoData.map((video) => (
-                <VideoCard
-                  key={video._id}
-                  video={video}
-                  menuItems={MenuItems}
-                />
-              ))}
+          <h4 className="text-center">
+            Search results for "{searchQuery}"{" "}
+            <span className="text-light">- {foundItems} item/s</span>
+          </h4>
+          <div className="layout-4-column">
+            {searchResults.map((video) => (
+              <VideoCard key={video._id} video={video} menuItems={MenuItems} />
+            ))}
           </div>
         </>
+      ) : (
+        <div className="text-center">
+          <h2>No results found for "{searchQuery}"</h2>
+          <h6>Check out our other videos</h6>
+          <button
+            className="btn primary"
+            onClick={() => navigate("/explore", { state: { from: pathname } })}
+          >
+            explore
+          </button>
+        </div>
       )}
-      {isInvalid && <Navigate to="/error" replace />}
-    </>
+    </article>
   );
 };

@@ -42,7 +42,11 @@ export const reducer = (state, { type, payload }) => {
       return { ...state, liked: payload.liked };
 
     case ACTIONS.SetUploadedVideo:
-      return { ...state, uploadedVideos: payload.uploadedVideos };
+      return {
+        ...state,
+        uploadedVideos: state.uploadedVideos.concat(payload.uploadedVideo),
+        videos: state.videos.concat(payload.uploadedVideo),
+      };
 
     case ACTIONS.ClearFilters:
       return { ...state, filters: initialState.filters };

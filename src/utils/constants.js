@@ -32,6 +32,11 @@ export const FILTERS = {
   Category: "category",
 };
 
+export const SORT_BY = {
+  latest: "Latest",
+  old: "Old",
+};
+
 export const ToastType = {
   Warn: "warn",
   Success: "success",
