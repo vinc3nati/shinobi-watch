@@ -39,6 +39,7 @@ const DataProvider = ({ children }) => {
     show: false,
     video: null,
   });
+  const [uploadModal, setUploadModal] = useState(false);
   const [loader, setLoader] = useState(false);
   const {
     user: { token },
@@ -383,6 +384,8 @@ const DataProvider = ({ children }) => {
         removePlaylist,
         addVideoToPlaylist,
         removeVideoFromPlaylist,
+        uploadModal,
+        setUploadModal,
       }}
     >
       {children}

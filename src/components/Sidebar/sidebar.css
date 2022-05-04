@@ -37,7 +37,8 @@
     .sidebar {
         align-items: center;
         justify-content: space-between;
-        top: 91vh;
+        top: calc(92vh + 2px);
+        /* top: 90vh; */
         z-index: 100;
         max-width: 100%;
         width: 100%;
@@ -51,5 +52,11 @@
     }
     .sidebar-link span {
         display: none;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .sidebar-link {
+        font-size: 1.6rem;
     }
 }

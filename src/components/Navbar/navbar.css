@@ -9,22 +9,29 @@
   }
 
   .main .search-bar,
-  .search-bar input[type="search"] {
+  .search-bar input {
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
   
   .search-list {
     position: fixed;
-    background: var(--color-tertiary-dark) !important;
+    background: var(--color-background) !important;
     top: 53px;
     list-style: none;
-    color: var(--color-grey-dark-3);
+    color: var(--color-foreground);
     width: calc(45% - 20px);
+    max-height: 300px;
+    overflow-y: scroll;
     height: fit-content;
     border-bottom-left-radius: var(--border-radius-3);
     border-bottom-right-radius: var(--border-radius-3);
   }
+
+  .search-bar .btn.tertiary:hover {
+    background-color: var(--color-background-accent);
+  }
+  
   
   .search-item {
     padding: 1rem 1.5rem;
@@ -32,7 +39,7 @@
   
   .search-item:hover {
     cursor: pointer;
-    background-color: var(--color-grey-dark-2);
+    background-color: var(--color-background-accent);
     border-radius: inherit;
   }
   

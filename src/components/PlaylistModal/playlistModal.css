@@ -1,9 +1,13 @@
 .modal-container {
     z-index: 110;
 }
+
 .modal-content {
     background-color: var(--color-background);
     color: var(--color-foreground);
+}
+
+.playlist-modal .modal-content {
     max-width: 350px;
     height: fit-content;
 }
@@ -16,11 +20,12 @@
     border-bottom: 1px solid var(--color-background-accent)
 }
 
-.modal-text {
+.playlist-modal .modal-text {
     height: 200px;
     overflow-y: scroll;
 }
-.with-header .modal-text {
+
+.playlist-modal .with-header .modal-text {
     margin-bottom: 1rem;
 }
 
@@ -58,10 +63,10 @@
 }
 
 @media only screen and (max-width: 768px) {
-    .modal-content {
+    .playlist-modal .modal-content {
         max-width: 300px;
     }
-    .modal-text {
+    .playlist-modal .modal-text {
         height: 160px;
     }
 }

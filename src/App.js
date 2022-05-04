@@ -20,13 +20,16 @@ import { History } from "./pages/History/History";
 import { PlaylistModal } from "./components/PlaylistModal/PlaylistModal";
 import { Playlist } from "./pages/Playlist/Playlist";
 import { SinglePlaylist } from "./pages/Playlist/SinglePlaylist";
+import { SearchResult } from "./pages/SearchResult/SearchResult";
+import { Upload } from "./components/Upload/Upload";
 
 function App() {
-  const { loader, setPlaylistModal, playlistModal } = useData();
+  const { loader, uploadModal, playlistModal } = useData();
   const { pathname } = useLocation();
   return (
     <>
       {loader && <Loader />}
+      {uploadModal && <Upload />}
       {playlistModal.show && <PlaylistModal />}
       {pathname !== "/login" && pathname !== "/signup" && <Navbar />}
       <Routes>
@@ -76,6 +79,10 @@ function App() {
             }
           />
         </Route>
+        <Route
+          path="/search"
+          element={<SearchResult title="search result" />}
+        />
         <Route
           path="/explore/:videoId"
           element={<VideoDetails title="video" />}

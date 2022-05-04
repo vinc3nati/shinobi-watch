@@ -48,7 +48,7 @@ export const PlaylistModal = () => {
     }
   };
   return (
-    <div className="modal-container active">
+    <div className="playlist-modal modal-container active">
       <div className="modal-content with-header">
         <div className="modal-header">
           <div className="h4 text-primary">Save To</div>
