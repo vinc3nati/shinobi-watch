@@ -19,6 +19,7 @@
 @import url("./components/PlaylistModal/playlistModal.css");
 @import url("./components/Filter/filter.css");
 @import url("./components/Upload/upload.css");
+@import url("./components/MultipleSelect/multipleSelect.css");
 
 :root {
   --border-radius-10: 10px;

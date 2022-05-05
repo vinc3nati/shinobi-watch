@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { useData } from "../../context";
 import { ACTIONS, ToastType } from "../../utils/constants";
+import { MultipleSelect } from "../MultipleSelect/MultipleSelect";
 import { ToastMessage } from "../Toast/Toast";
 
 export const Upload = () => {
@@ -37,13 +38,19 @@ export const Upload = () => {
   const handleChange = (e) => {
     const name = e.target.name,
       value = e.target.value;
-    if (name === "category") {
-      setUploadVideo((prev) => ({
-        ...prev,
-        category: prev.category.concat(value),
-      }));
-    } else setUploadVideo((prev) => ({ ...prev, [name]: value }));
+    setUploadVideo((prev) => ({ ...prev, [name]: value }));
   };
+
+  const handleCheckboxChange = (e, item) =>
+    !e.target.checked
+      ? setUploadVideo((prev) => ({
+          ...prev,
+          category: prev.category.filter((el) => el._id !== item._id),
+        }))
+      : setUploadVideo((prev) => ({
+          ...prev,
+          category: prev.category.concat(item),
+        }));
 
   const handleErrorFocus = (e) => {
     const name = e.target.name;
@@ -105,7 +112,10 @@ export const Upload = () => {
               creator: uploadVideo.creator.trim(),
               title: uploadVideo.title.trim(),
               description: uploadVideo.description.trim(),
-              category: uploadVideo.category,
+              category: uploadVideo.category.reduce(
+                (acc, curr) => [...acc, curr.categoryName],
+                []
+              ),
               viewCount: 0,
               uploadDate: new Date().getTime(),
             },
@@ -205,27 +215,18 @@ export const Upload = () => {
               </p>
             )}
           </div>
-          <div className="input-grp">
-            <label htmlFor="category">Category</label>
-            <select
-              id="category"
-              name="category"
-              onChange={handleChange}
-              onFocus={handleErrorFocus}
-              required
-            >
-              {categories.map((item) => (
-                <option key={item._id} value={item.categoryName}>
-                  {item.categoryName}
-                </option>
-              ))}
-            </select>
-            {uploadError.category && (
-              <p className="text-error">
-                <RiErrorWarningFill /> {uploadError.category}
-              </p>
-            )}
-          </div>
+          <MultipleSelect
+            label="Category"
+            options={categories}
+            selectedItem={uploadVideo.category}
+            onChange={handleCheckboxChange}
+            onFocus={handleErrorFocus}
+          />
+          {uploadError.category && (
+            <p className="text-error">
+              <RiErrorWarningFill /> {uploadError.category}
+            </p>
+          )}
         </div>
         <button type="submit" className="btn primary" onClick={handleUpload}>
           Upload

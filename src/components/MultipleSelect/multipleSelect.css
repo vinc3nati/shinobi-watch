@@ -1,0 +1,44 @@
+.multiple-select-grp {
+    width: 100%;
+    position: relative;
+}
+
+.selected-items-container {
+    display: flex;
+    width: 100%;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.selected-item {
+    background-color: var(--color-primary);
+    padding: 0.5rem 0.8rem;
+    border-radius: 50px;
+    color: var(--color-tertiary);
+}
+
+.multiple-select-field {
+    width: 100%;
+    cursor: pointer;
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.6rem;
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    border: 1px solid var(--color-foreground);
+    border-radius: var(--border-radius-3);
+}
+
+.multiple-select-list {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 1rem 1.5rem 0;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-background-accent);
+    border-radius: var(--border-radius-3);
+}
