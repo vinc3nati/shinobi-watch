@@ -16,10 +16,12 @@ export const VideoDetails = ({ title }) => {
   useDocumentTitle(title);
   const {
     state: { videos },
+    addToWatchlater,
+    setPlaylistModal,
   } = useData();
   const { videoId } = useParams();
   const videoToDisplay = videos.find((elem) => elem._id === videoId) || [];
-  console.log(videoToDisplay);
+
   const relatedVideos = videos.filter(
     (ele) =>
       ele._id !== videoId &&
@@ -31,9 +33,12 @@ export const VideoDetails = ({ title }) => {
   const clickHandler = async (id, video) => {
     switch (id) {
       case 1: // check for login else save to watch later
+        const res = await addToWatchlater({ video });
+        ToastMessage(res?.msg, ToastType.Success);
         break;
 
       case 2: // check for login else save to playlist
+        await setPlaylistModal((prev) => ({ ...prev, show: true, video }));
         break;
 
       case 3: // copy video link

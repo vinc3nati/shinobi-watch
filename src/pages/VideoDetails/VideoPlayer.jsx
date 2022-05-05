@@ -136,6 +136,12 @@ const VideoPlayer = ({ video }) => {
             className="video-player-icon"
           />
           <BsShareFill
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `https://shinobi-watch.netlify.app/explore/${video._id}`
+              );
+              ToastMessage("Link copied to keyboard", ToastType.Info);
+            }}
             style={
               disabled ? { pointerEvents: "none", cursor: "not-allowed" } : null
             }

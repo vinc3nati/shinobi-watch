@@ -5,7 +5,6 @@ import React, {
   useReducer,
   useState,
 } from "react";
-import { toast } from "react-toastify";
 import { ToastMessage } from "../components/Toast/Toast";
 import {
   addLikedVideos,

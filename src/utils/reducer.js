@@ -59,6 +59,7 @@ export const reducer = (state, { type, payload }) => {
         liked: [],
         watchLater: [],
         uploadedVideos: [],
+        filters: initialState.filters,
       };
 
     default:
