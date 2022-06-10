@@ -41,13 +41,6 @@ export const VideoDetails = ({ title }) => {
         await setPlaylistModal((prev) => ({ ...prev, show: true, video }));
         break;
 
-      case 3: // copy video link
-        navigator.clipboard.writeText(
-          `https://shinobi-watch.netlify.app/explore/${video._id}`
-        );
-        ToastMessage("Link copied to keyboard", ToastType.Info);
-        break;
-
       default:
         break;
     }

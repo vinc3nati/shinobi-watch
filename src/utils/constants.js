@@ -43,3 +43,8 @@ export const ToastType = {
   Info: "info",
   Error: "error",
 };
+
+export const SHARE_CONTENT = encodeURIComponent(
+  "Hello guys, checkout this amazing video I found on Shinobi Watch."
+);
+export const SHARE_URL = "https://shinobi-connect.netlify.app";

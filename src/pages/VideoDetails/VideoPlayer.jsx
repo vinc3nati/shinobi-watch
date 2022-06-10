@@ -6,7 +6,12 @@ import { MdWatchLater } from "react-icons/md";
 import { v4 as uuid } from "uuid";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth, useData } from "../../context";
-import { ACTIONS, ToastType } from "../../utils/constants";
+import {
+  ACTIONS,
+  SHARE_CONTENT,
+  SHARE_URL,
+  ToastType,
+} from "../../utils/constants";
 import { capitalize } from "../../utils/capitalize";
 import { ToastMessage } from "../../components/Toast/Toast";
 
@@ -33,6 +38,9 @@ const VideoPlayer = ({ video }) => {
 
   const isLiked = liked.some((item) => item._id === video._id);
   const isWatchlater = watchLater.some((item) => item._id === video._id);
+  const encodedVideoId = encodeURIComponent(video?._id);
+
+  const shareURL = `${SHARE_URL}/?content=${SHARE_CONTENT} https://shinobi-watch.netlify.app/explore/${encodedVideoId}`;
 
   const increaseView = () => {
     const updatedList = videos.map((item) =>
@@ -135,18 +143,16 @@ const VideoPlayer = ({ video }) => {
             }
             className="video-player-icon"
           />
-          <BsShareFill
-            onClick={() => {
-              navigator.clipboard.writeText(
-                `https://shinobi-watch.netlify.app/explore/${video._id}`
-              );
-              ToastMessage("Link copied to keyboard", ToastType.Info);
-            }}
-            style={
-              disabled ? { pointerEvents: "none", cursor: "not-allowed" } : null
-            }
-            className="video-player-icon"
-          />
+          <a style={{ textDecoration: "none" }} target="_blank" href={shareURL}>
+            <BsShareFill
+              style={
+                disabled
+                  ? { pointerEvents: "none", cursor: "not-allowed" }
+                  : null
+              }
+              className="video-player-icon"
+            />
+          </a>
         </div>
       </div>
       {video?.viewCount !== 0 && (
