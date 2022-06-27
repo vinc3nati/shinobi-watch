@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useData } from "../../context/data-context";
@@ -7,6 +7,7 @@ import { Filter } from "../Filter/Filter";
 
 export const Searchbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchedOptions, setSearchedOptions] = useState([]);
   const [activeSearch, setActiveSearch] = useState(false);
   const searchBarRef = useRef();
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ export const Searchbar = () => {
     []
   );
   videos.forEach((item) => searchKeyWords.push(item.title));
+  let timerId = useRef();
 
   useOnClickOutside(searchBarRef, () => setActiveSearch(false));
 
@@ -29,25 +31,32 @@ export const Searchbar = () => {
     }
   };
 
-  const searchedOptions = searchKeyWords
-    .map((item) => {
-      if (item.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1) {
-        return (
-          <li
-            className="search-item"
-            key={item}
-            onClick={() => {
-              navigate(`/search?searchQuery=${encodeURIComponent(item)}`);
-              setActiveSearch(false);
-              setSearchQuery("");
-            }}
-          >
-            {item}
-          </li>
-        );
-      }
-    })
-    .filter((item) => item !== undefined);
+  useEffect(() => {
+    clearTimeout(timerId.current);
+    timerId.current = setTimeout(() => {
+      setSearchedOptions(
+        searchKeyWords
+          .map((item) => {
+            if (item.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1) {
+              return (
+                <li
+                  className="search-item"
+                  key={item}
+                  onClick={() => {
+                    navigate(`/search?searchQuery=${encodeURIComponent(item)}`);
+                    setActiveSearch(false);
+                    setSearchQuery("");
+                  }}
+                >
+                  {item}
+                </li>
+              );
+            }
+          })
+          .filter((item) => item !== undefined)
+      );
+    }, 500);
+  }, [searchQuery]);
 
   return (
     <div className="search-bar">

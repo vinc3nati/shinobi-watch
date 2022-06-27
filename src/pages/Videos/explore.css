@@ -44,6 +44,20 @@
     font-size: 1.4rem;
 }
 
+.video-img-container {
+    overflow: hidden;
+}
+
+.video-img-container > .img {
+    transition: transform 0.3s;
+}
+
+.video-img-container > .img:hover, 
+.video-img-container > .img:focus
+{
+    transform: scale(1.05);
+}
+
 .video-options, .video-img-container  {
     cursor: pointer;
 }
