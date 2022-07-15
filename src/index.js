@@ -7,6 +7,7 @@ import ScrollToTop from "./ScrollToTop";
 import { ThemeProvider } from "./context/theme-context";
 import { DataProvider } from "./context/data-context";
 import { AuthProvider } from "./context";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 // Call make Server
 makeServer();
@@ -26,3 +27,5 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
+
+serviceWorkerRegistration.register();
