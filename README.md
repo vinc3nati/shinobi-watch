@@ -57,6 +57,7 @@
 ## Features
 
 - Sleek Landing Page
+- Progressive Web App
 - Login and Sign up with [MockBee](http://mockbee.netlify.app/)
 - Genre filters
 - Filter by latest, old uploads
